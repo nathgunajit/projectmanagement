@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="header-title">Project Management</h1>
+                <button class="btn btn-primary" onclick="showAddProjectForm()">
+                    <span class="icon">+</span>
+                    New Project
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Project Form (Hidden by default) -->
+            <div id="projectForm" class="form-section" style="display: none;">
+                <div class="form-card">
+                    <div class="form-header">
+                        <h2>Create New Project</h2>
+                        <button class="close-btn" onclick="hideAddProjectForm()">×</button>
+                    </div>
+                    <form id="newProjectForm" class="project-form">
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="projectTitle">Project Title</label>
+                                <input type="text" id="projectTitle" name="projectTitle" required>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="shortDescription">Short Description</label>
+                                <textarea id="shortDescription" name="shortDescription" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="department">Department</label>
+                                <select id="department" name="department" required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">Information Technology</option>
+                                    <option value="HR">Human Resources</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Operations">Operations</option>
+                                    <option value="Marketing">Marketing</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sector">Sector</label>
+                                <select id="sector" name="sector" required>
+                                    <option value="">Select Sector</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Infrastructure">Infrastructure</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Agriculture">Agriculture</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="budget">Budget ($)</label>
+                                <input type="number" id="budget" name="budget" min="0" step="1000" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="date" id="startDate" name="startDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="date" id="endDate" name="endDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="stage">Current Stage</label>
+                                <select id="stage" name="stage" required>
+                                    <option value="Draft">Draft</option>
+                                    <option value="Staging">Staging</option>
+                                    <option value="Approved">Approved</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="dprFile">Attach DPR Document</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="dprFile" name="dprFile" accept=".pdf,.doc,.docx">
+                                    <span class="file-input-text">Choose file or drag here</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="saveAsDraft()">Save as Draft</button>
+                            <button type="button" class="btn btn-primary" onclick="submitToStaging()">Submit to Staging</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Projects List -->
+            <div class="projects-section">
+                <div class="section-header">
+                    <h2>Projects Overview</h2>
+                    <div class="search-filters">
+                        <input type="text" class="search-input" placeholder="Search projects..." onkeyup="filterProjects()">
+                        <select class="filter-select" onchange="filterByStage()">
+                            <option value="">All Stages</option>
+                            <option value="Draft">Draft</option>
+                            <option value="Staging">Staging</option>
+                            <option value="Approved">Approved</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Sample Projects -->
+                    <div class="project-card" data-stage="Draft">
+                        <div class="project-header">
+                            <h3 class="project-title">Healthcare Management System</h3>
+                            <span class="stage-badge stage-draft">Draft</span>
+                        </div>
+                        <p class="project-description">Digital platform for patient records and appointment scheduling</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Department:</span>
+                                <span class="meta-value">IT</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Budget:</span>
+                                <span class="meta-value">$450,000</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration:</span>
+                                <span class="meta-value">Jan 2024 - Dec 2024</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="action-btn edit" onclick="editProject(1)">Edit</button>
+                            <button class="action-btn move" onclick="moveStage(1, 'Draft')">Move Stage</button>
+                            <button class="action-btn view" onclick="viewDetails(1)">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-stage="Staging">
+                        <div class="project-header">
+                            <h3 class="project-title">Smart Agriculture Initiative</h3>
+                            <span class="stage-badge stage-staging">Staging</span>
+                        </div>
+                        <p class="project-description">IoT-based crop monitoring and automated irrigation system</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Department:</span>
+                                <span class="meta-value">Operations</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Budget:</span>
+                                <span class="meta-value">$275,000</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration:</span>
+                                <span class="meta-value">Mar 2024 - Nov 2024</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="action-btn edit" onclick="editProject(2)">Edit</button>
+                            <button class="action-btn move" onclick="moveStage(2, 'Staging')">Move Stage</button>
+                            <button class="action-btn view" onclick="viewDetails(2)">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-stage="Approved">
+                        <div class="project-header">
+                            <h3 class="project-title">Employee Training Platform</h3>
+                            <span class="stage-badge stage-approved">Approved</span>
+                        </div>
+                        <p class="project-description">Comprehensive e-learning platform for staff development</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Department:</span>
+                                <span class="meta-value">HR</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Budget:</span>
+                                <span class="meta-value">$180,000</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration:</span>
+                                <span class="meta-value">Feb 2024 - Aug 2024</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="action-btn edit" onclick="editProject(3)">Edit</button>
+                            <button class="action-btn move" onclick="moveStage(3, 'Approved')">Move Stage</button>
+                            <button class="action-btn view" onclick="viewDetails(3)">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-stage="Staging">
+                        <div class="project-header">
+                            <h3 class="project-title">Financial Analytics Dashboard</h3>
+                            <span class="stage-badge stage-staging">Staging</span>
+                        </div>
+                        <p class="project-description">Real-time financial reporting and analytics platform</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Department:</span>
+                                <span class="meta-value">Finance</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Budget:</span>
+                                <span class="meta-value">$320,000</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration:</span>
+                                <span class="meta-label">Apr 2024 - Oct 2024</span>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="action-btn edit" onclick="editProject(4)">Edit</button>
+                            <button class="action-btn move" onclick="moveStage(4, 'Staging')">Move Stage</button>
+                            <button class="action-btn view" onclick="viewDetails(4)">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Confirm Action</h3>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Are you sure you want to perform this action?</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" id="confirmBtn" onclick="confirmAction()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification" style="display: none;">
+        <div class="notification-content">
+            <span id="notificationMessage"></span>
+            <button class="notification-close" onclick="closeNotification()">×</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAction = null;
+        let currentProjectId = null;
+
+        function showAddProjectForm() {
+            document.getElementById('projectForm').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideAddProjectForm() {
+            document.getElementById('projectForm').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById('newProjectForm').reset();
+        }
+
+        function saveAsDraft() {
+            showNotification('Project saved as draft successfully!', 'success');
+            hideAddProjectForm();
+        }
+
+        function submitToStaging() {
+            showModal(
+                'Submit to Staging',
+                'This will notify the department head for review. Continue?',
+                () => {
+                    showNotification('Project submitted to staging! Department head has been notified.', 'success');
+                    hideAddProjectForm();
+                    closeModal();
+                }
+            );
+        }
+
+        function moveStage(projectId, currentStage) {
+            let nextStage = '';
+            let message = '';
+            
+            if (currentStage === 'Draft') {
+                nextStage = 'Staging';
+                message = 'Move project to staging? The department head will be notified for review.';
+            } else if (currentStage === 'Staging') {
+                nextStage = 'Approved';
+                message = 'Approve this project? This action will finalize the project approval.';
+            } else {
+                showNotification('Project is already at the final stage.', 'info');
+                return;
+            }
+
+            showModal(
+                'Move to ' + nextStage,
+                message,
+                () => {
+                    // Update the project card stage
+                    const projectCard = document.querySelector(`[onclick="moveStage(${projectId}, '${currentStage}')"]`).closest('.project-card');
+                    const stageBadge = projectCard.querySelector('.stage-badge');
+                    stageBadge.textContent = nextStage;
+                    stageBadge.className = `stage-badge stage-${nextStage.toLowerCase()}`;
+                    projectCard.dataset.stage = nextStage;
+                    
+                    // Update the move stage button
+                    const moveBtn = projectCard.querySelector('.move');
+                    moveBtn.setAttribute('onclick', `moveStage(${projectId}, '${nextStage}')`);
+                    
+                    showNotification(`Project moved to ${nextStage} successfully!`, 'success');
+                    closeModal();
+                }
+            );
+        }
+
+        function editProject(id) {
+            showNotification(`Edit functionality for project ${id} would be implemented here.`, 'info');
+        }
+
+        function viewDetails(id) {
+            showNotification(`Project ${id} details would be displayed in a detailed view.`, 'info');
+        }
+
+        function showModal(title, message, confirmCallback) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('confirmationModal').style.display = 'block';
+            currentAction = confirmCallback;
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            currentAction = null;
+        }
+
+        function confirmAction() {
+            if (currentAction) {
+                currentAction();
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const messageEl = document.getElementById('notificationMessage');
+            messageEl.textContent = message;
+            notification.className = `notification notification-${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                closeNotification();
+            }, 5000);
+        }
+
+        function closeNotification() {
+            document.getElementById('notification').style.display = 'none';
+        }
+
+        function filterProjects() {
+            const searchTerm = event.target.value.toLowerCase();
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                const title = card.querySelector('.project-title').textContent.toLowerCase();
+                const description = card.querySelector('.project-description').textContent.toLowerCase();
+                const department = card.querySelector('.meta-value').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm) || department.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterByStage() {
+            const selectedStage = event.target.value;
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                if (!selectedStage || card.dataset.stage === selectedStage) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('confirmationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

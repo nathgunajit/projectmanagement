@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - Management System</title>
+    <link rel="stylesheet" href="project-details-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="back-btn" onclick="goBack()">← Back</button>
+                    <h1 class="header-title">Project Details</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="saveProject()">Save Changes</button>
+                    <button class="btn btn-primary" onclick="showCreateProjectModal()">Create New Project</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Project Overview Card -->
+            <div class="project-overview-card">
+                <div class="project-header">
+                    <div class="project-info">
+                        <h2 class="project-name">Healthcare Management System</h2>
+                        <p class="project-objective">Digital platform for patient records and appointment scheduling to improve healthcare delivery efficiency</p>
+                        <div class="project-meta">
+                            <span class="meta-item">
+                                <strong>Department:</strong> Information Technology
+                            </span>
+                            <span class="meta-item">
+                                <strong>Sector:</strong> Healthcare
+                            </span>
+                            <span class="meta-item">
+                                <strong>Budget:</strong> $450,000
+                            </span>
+                        </div>
+                    </div>
+                    <div class="project-status">
+                        <div class="status-badge status-ongoing">Ongoing</div>
+                        <div class="loan-info">
+                            <strong>Loan Bank:</strong> Development Bank Ltd.
+                            <br>
+                            <strong>Loan Amount:</strong> $350,000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showTab('documents')">Documents</button>
+                    <button class="tab-btn" onclick="showTab('components')">Components</button>
+                    <button class="tab-btn" onclick="showTab('mapping')">Sector/Department</button>
+                    <button class="tab-btn" onclick="showTab('timeline')">Timeline</button>
+                    <button class="tab-btn" onclick="showTab('status')">Status Updates</button>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Documents Tab -->
+                <div id="documents-tab" class="tab-panel active">
+                    <div class="section-header">
+                        <h3>Project Documents</h3>
+                        <button class="btn btn-primary" onclick="showAddDocumentModal()">Add Document</button>
+                    </div>
+                    <div class="documents-grid">
+                        <div class="document-card">
+                            <div class="document-icon">📄</div>
+                            <div class="document-info">
+                                <h4>Project Proposal</h4>
+                                <p>Initial project proposal document</p>
+                                <span class="document-meta">PDF • 2.5 MB • Jan 15, 2024</span>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn view" onclick="viewDocument(1)">View</button>
+                                <button class="action-btn download" onclick="downloadDocument(1)">Download</button>
+                            </div>
+                        </div>
+                        <div class="document-card">
+                            <div class="document-icon">📊</div>
+                            <div class="document-info">
+                                <h4>Budget Analysis</h4>
+                                <p>Detailed budget breakdown and analysis</p>
+                                <span class="document-meta">Excel • 1.8 MB • Jan 20, 2024</span>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn view" onclick="viewDocument(2)">View</button>
+                                <button class="action-btn download" onclick="downloadDocument(2)">Download</button>
+                            </div>
+                        </div>
+                        <div class="document-card">
+                            <div class="document-icon">📋</div>
+                            <div class="document-info">
+                                <h4>Technical Specifications</h4>
+                                <p>System requirements and technical details</p>
+                                <span class="document-meta">Word • 3.2 MB • Feb 1, 2024</span>
+                            </div>
+                            <div class="document-actions">
+                                <button class="action-btn view" onclick="viewDocument(3)">View</button>
+                                <button class="action-btn download" onclick="downloadDocument(3)">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Components Tab -->
+                <div id="components-tab" class="tab-panel">
+                    <div class="section-header">
+                        <h3>Components & Subcomponents</h3>
+                        <button class="btn btn-primary" onclick="showAddComponentModal()">Add Component</button>
+                    </div>
+                    <div class="components-tree">
+                        <div class="component-item">
+                            <div class="component-header">
+                                <span class="expand-btn" onclick="toggleComponent(1)">▼</span>
+                                <h4>Frontend Development</h4>
+                                <div class="component-actions">
+                                    <button class="action-btn edit" onclick="editComponent(1)">Edit</button>
+                                    <button class="action-btn add" onclick="addSubcomponent(1)">Add Sub</button>
+                                </div>
+                            </div>
+                            <div class="component-details">
+                                <p>User interface development using React and modern web technologies</p>
+                                <div class="component-meta">
+                                    <span><strong>Budget:</strong> $120,000</span>
+                                    <span><strong>Duration:</strong> 3 months</span>
+                                    <span><strong>Status:</strong> In Progress</span>
+                                </div>
+                            </div>
+                            <div class="subcomponents">
+                                <div class="subcomponent-item">
+                                    <h5>Patient Dashboard</h5>
+                                    <p>Dashboard for patient information management</p>
+                                    <div class="subcomponent-meta">
+                                        <span>Budget: $40,000</span>
+                                        <span>Status: Completed</span>
+                                    </div>
+                                </div>
+                                <div class="subcomponent-item">
+                                    <h5>Appointment System</h5>
+                                    <p>Online appointment booking and management</p>
+                                    <div class="subcomponent-meta">
+                                        <span>Budget: $50,000</span>
+                                        <span>Status: In Progress</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="component-item">
+                            <div class="component-header">
+                                <span class="expand-btn" onclick="toggleComponent(2)">▼</span>
+                                <h4>Backend Development</h4>
+                                <div class="component-actions">
+                                    <button class="action-btn edit" onclick="editComponent(2)">Edit</button>
+                                    <button class="action-btn add" onclick="addSubcomponent(2)">Add Sub</button>
+                                </div>
+                            </div>
+                            <div class="component-details">
+                                <p>Server-side development and database management</p>
+                                <div class="component-meta">
+                                    <span><strong>Budget:</strong> $150,000</span>
+                                    <span><strong>Duration:</strong> 4 months</span>
+                                    <span><strong>Status:</strong> Planning</span>
+                                </div>
+                            </div>
+                            <div class="subcomponents">
+                                <div class="subcomponent-item">
+                                    <h5>API Development</h5>
+                                    <p>RESTful API for system integration</p>
+                                    <div class="subcomponent-meta">
+                                        <span>Budget: $80,000</span>
+                                        <span>Status: Planning</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapping Tab -->
+                <div id="mapping-tab" class="tab-panel">
+                    <div class="section-header">
+                        <h3>Sector & Department Mapping</h3>
+                        <button class="btn btn-primary" onclick="showMappingModal()">Update Mapping</button>
+                    </div>
+                    <div class="mapping-grid">
+                        <div class="mapping-card">
+                            <h4>Primary Sector</h4>
+                            <div class="mapping-item">
+                                <span class="mapping-label">Healthcare</span>
+                                <span class="mapping-percentage">80%</span>
+                            </div>
+                        </div>
+                        <div class="mapping-card">
+                            <h4>Secondary Sectors</h4>
+                            <div class="mapping-item">
+                                <span class="mapping-label">Technology</span>
+                                <span class="mapping-percentage">15%</span>
+                            </div>
+                            <div class="mapping-item">
+                                <span class="mapping-label">Education</span>
+                                <span class="mapping-percentage">5%</span>
+                            </div>
+                        </div>
+                        <div class="mapping-card">
+                            <h4>Departments Involved</h4>
+                            <div class="mapping-item">
+                                <span class="mapping-label">Information Technology</span>
+                                <span class="mapping-role">Lead Department</span>
+                            </div>
+                            <div class="mapping-item">
+                                <span class="mapping-label">Healthcare Operations</span>
+                                <span class="mapping-role">Stakeholder</span>
+                            </div>
+                            <div class="mapping-item">
+                                <span class="mapping-label">Finance</span>
+                                <span class="mapping-role">Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Tab -->
+                <div id="timeline-tab" class="tab-panel">
+                    <div class="section-header">
+                        <h3>Timeline & Milestones</h3>
+                        <button class="btn btn-primary" onclick="showAddMilestoneModal()">Add Milestone</button>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item completed">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Project Initiation</h4>
+                                <p>Project approved and team assembled</p>
+                                <div class="timeline-meta">
+                                    <span class="timeline-date">Jan 15, 2024</span>
+                                    <span class="timeline-status completed">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item completed">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Requirements Analysis</h4>
+                                <p>Detailed requirements gathering and analysis</p>
+                                <div class="timeline-meta">
+                                    <span class="timeline-date">Feb 1, 2024</span>
+                                    <span class="timeline-status completed">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item current">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Development Phase 1</h4>
+                                <p>Frontend development and UI/UX implementation</p>
+                                <div class="timeline-meta">
+                                    <span class="timeline-date">Mar 1, 2024</span>
+                                    <span class="timeline-status current">In Progress</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item upcoming">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Development Phase 2</h4>
+                                <p>Backend development and database implementation</p>
+                                <div class="timeline-meta">
+                                    <span class="timeline-date">May 1, 2024</span>
+                                    <span class="timeline-status upcoming">Upcoming</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item upcoming">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>Testing & Deployment</h4>
+                                <p>System testing and production deployment</p>
+                                <div class="timeline-meta">
+                                    <span class="timeline-date">Aug 1, 2024</span>
+                                    <span class="timeline-status upcoming">Upcoming</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Updates Tab -->
+                <div id="status-tab" class="tab-panel">
+                    <div class="section-header">
+                        <h3>Status Updates</h3>
+                        <button class="btn btn-primary" onclick="showAddStatusModal()">Add Update</button>
+                    </div>
+                    <div class="status-pipeline">
+                        <div class="pipeline-stage completed">
+                            <div class="stage-icon">✓</div>
+                            <h4>Pipeline</h4>
+                            <p>Project identified and added to pipeline</p>
+                            <span class="stage-date">Dec 15, 2023</span>
+                        </div>
+                        <div class="pipeline-stage completed">
+                            <div class="stage-icon">✓</div>
+                            <h4>Negotiation</h4>
+                            <p>Terms and conditions negotiated</p>
+                            <span class="stage-date">Jan 5, 2024</span>
+                        </div>
+                        <div class="pipeline-stage completed">
+                            <div class="stage-icon">✓</div>
+                            <h4>Signing</h4>
+                            <p>Contracts signed and approved</p>
+                            <span class="stage-date">Jan 15, 2024</span>
+                        </div>
+                        <div class="pipeline-stage current">
+                            <div class="stage-icon">⏳</div>
+                            <h4>Ongoing</h4>
+                            <p>Project currently in development</p>
+                            <span class="stage-date">Jan 20, 2024</span>
+                        </div>
+                        <div class="pipeline-stage upcoming">
+                            <div class="stage-icon">○</div>
+                            <h4>Closed</h4>
+                            <p>Project completion and closure</p>
+                            <span class="stage-date">Expected: Dec 2024</span>
+                        </div>
+                    </div>
+                    <div class="status-updates-list">
+                        <h4>Recent Updates</h4>
+                        <div class="status-update-item">
+                            <div class="update-header">
+                                <h5>Development Progress Update</h5>
+                                <span class="update-date">Mar 15, 2024</span>
+                            </div>
+                            <p>Frontend development is 60% complete. Patient dashboard module has been successfully implemented and tested.</p>
+                            <div class="update-meta">
+                                <span class="update-author">By: John Smith</span>
+                                <span class="update-type">Progress</span>
+                            </div>
+                        </div>
+                        <div class="status-update-item">
+                            <div class="update-header">
+                                <h5>Budget Adjustment</h5>
+                                <span class="update-date">Mar 10, 2024</span>
+                            </div>
+                            <p>Additional $25,000 allocated for enhanced security features as requested by stakeholders.</p>
+                            <div class="update-meta">
+                                <span class="update-author">By: Sarah Johnson</span>
+                                <span class="update-type">Budget</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Project Modal -->
+    <div id="createProjectModal" class="modal" style="display: none;">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Create New Project</h3>
+                <button class="close-btn" onclick="closeModal('createProjectModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="createProjectForm" class="project-form">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="projectName">Project Name</label>
+                            <input type="text" id="projectName" name="projectName" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="projectObjective">Project Objective</label>
+                            <textarea id="projectObjective" name="projectObjective" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="loanBank">Loan Bank</label>
+                            <input type="text" id="loanBank" name="loanBank" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loanAmount">Loan Amount ($)</label>
+                            <input type="number" id="loanAmount" name="loanAmount" min="0" step="1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="interestRate">Interest Rate (%)</label>
+                            <input type="number" id="interestRate" name="interestRate" min="0" max="100" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="loanTerm">Loan Term (Years)</label>
+                            <input type="number" id="loanTerm" name="loanTerm" min="1" max="50">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('createProjectModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="createProject()">Create Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Document Modal -->
+    <div id="addDocumentModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Document</h3>
+                <button class="close-btn" onclick="closeModal('addDocumentModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="addDocumentForm">
+                    <div class="form-group">
+                        <label for="documentTitle">Document Title</label>
+                        <input type="text" id="documentTitle" name="documentTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentDescription">Description</label>
+                        <textarea id="documentDescription" name="documentDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentFile">Upload File</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="documentFile" name="documentFile" required>
+                            <span class="file-input-text">Choose file or drag here</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('addDocumentModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addDocument()">Add Document</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Component Modal -->
+    <div id="addComponentModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Component</h3>
+                <button class="close-btn" onclick="closeModal('addComponentModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="addComponentForm">
+                    <div class="form-group">
+                        <label for="componentName">Component Name</label>
+                        <input type="text" id="componentName" name="componentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="componentDescription">Description</label>
+                        <textarea id="componentDescription" name="componentDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="componentBudget">Budget ($)</label>
+                        <input type="number" id="componentBudget" name="componentBudget" min="0" step="1000">
+                    </div>
+                    <div class="form-group">
+                        <label for="componentDuration">Duration (Months)</label>
+                        <input type="number" id="componentDuration" name="componentDuration" min="1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('addComponentModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addComponent()">Add Component</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Milestone Modal -->
+    <div id="addMilestoneModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Milestone</h3>
+                <button class="close-btn" onclick="closeModal('addMilestoneModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="addMilestoneForm">
+                    <div class="form-group">
+                        <label for="milestoneTitle">Milestone Title</label>
+                        <input type="text" id="milestoneTitle" name="milestoneTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="milestoneDescription">Description</label>
+                        <textarea id="milestoneDescription" name="milestoneDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="milestoneDate">Target Date</label>
+                        <input type="date" id="milestoneDate" name="milestoneDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="milestoneStatus">Status</label>
+                        <select id="milestoneStatus" name="milestoneStatus">
+                            <option value="upcoming">Upcoming</option>
+                            <option value="current">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('addMilestoneModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addMilestone()">Add Milestone</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Status Update Modal -->
+    <div id="addStatusModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Status Update</h3>
+                <button class="close-btn" onclick="closeModal('addStatusModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="addStatusForm">
+                    <div class="form-group">
+                        <label for="statusTitle">Update Title</label>
+                        <input type="text" id="statusTitle" name="statusTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="statusDescription">Description</label>
+                        <textarea id="statusDescription" name="statusDescription" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="statusType">Update Type</label>
+                        <select id="statusType" name="statusType">
+                            <option value="progress">Progress</option>
+                            <option value="budget">Budget</option>
+                            <option value="timeline">Timeline</option>
+                            <option value="issue">Issue</option>
+                            <option value="milestone">Milestone</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('addStatusModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addStatusUpdate()">Add Update</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification" style="display: none;">
+        <div class="notification-content">
+            <span id="notificationMessage"></span>
+            <button class="notification-close" onclick="closeNotification()">×</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab panels
+            const panels = document.querySelectorAll('.tab-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab panel
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Modal functions
+        function showCreateProjectModal() {
+            document.getElementById('createProjectModal').style.display = 'block';
+        }
+
+        function showAddDocumentModal() {
+            document.getElementById('addDocumentModal').style.display = 'block';
+        }
+
+        function showAddComponentModal() {
+            document.getElementById('addComponentModal').style.display = 'block';
+        }
+
+        function showAddMilestoneModal() {
+            document.getElementById('addMilestoneModal').style.display = 'block';
+        }
+
+        function showAddStatusModal() {
+            document.getElementById('addStatusModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Component tree functionality
+        function toggleComponent(id) {
+            const component = event.target.closest('.component-item');
+            const subcomponents = component.querySelector('.subcomponents');
+            const expandBtn = component.querySelector('.expand-btn');
+            
+            if (subcomponents.style.display === 'none' || !subcomponents.style.display) {
+                subcomponents.style.display = 'block';
+                expandBtn.textContent = '▼';
+            } else {
+                subcomponents.style.display = 'none';
+                expandBtn.textContent = '▶';
+            }
+        }
+
+        // Action functions
+        function goBack() {
+            window.history.back();
+        }
+
+        function saveProject() {
+            showNotification('Project changes saved successfully!', 'success');
+        }
+
+        function createProject() {
+            showNotification('New project created successfully!', 'success');
+            closeModal('createProjectModal');
+        }
+
+        function addDocument() {
+            showNotification('Document added successfully!', 'success');
+            closeModal('addDocumentModal');
+        }
+
+        function addComponent() {
+            showNotification('Component added successfully!', 'success');
+            closeModal('addComponentModal');
+        }
+
+        function addMilestone() {
+            showNotification('Milestone added successfully!', 'success');
+            closeModal('addMilestoneModal');
+        }
+
+        function addStatusUpdate() {
+            showNotification('Status update added successfully!', 'success');
+            closeModal('addStatusModal');
+        }
+
+        function viewDocument(id) {
+            showNotification(`Opening document ${id} in viewer...`, 'info');
+        }
+
+        function downloadDocument(id) {
+            showNotification(`Downloading document ${id}...`, 'info');
+        }
+
+        function editComponent(id) {
+            showNotification(`Edit component ${id} functionality would be implemented here.`, 'info');
+        }
+
+        function addSubcomponent(id) {
+            showNotification(`Add subcomponent to component ${id} functionality would be implemented here.`, 'info');
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const messageEl = document.getElementById('notificationMessage');
+            messageEl.textContent = message;
+            notification.className = `notification notification-${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                closeNotification();
+            }, 5000);
+        }
+
+        function closeNotification() {
+            document.getElementById('notification').style.display = 'none';
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
