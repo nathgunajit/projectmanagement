@@ -8,8 +8,111 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">ProjectHub</span>
+            </div>
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        <span class="nav-text">Projects</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Teams</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📁</span>
+                        <span class="nav-text">Documents</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Project Manager</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Logout</span>
+                </button>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <span class="hamburger"></span>
+                </button>
+                <div class="breadcrumb">
+                    <span class="breadcrumb-item">Home</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-item active">Projects</span>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search projects, teams, documents..." class="global-search">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <button class="header-btn notification-btn" onclick="showNotifications()">
+                    <span class="icon">🔔</span>
+                    <span class="badge">3</span>
+                </button>
+                <button class="header-btn profile-btn" onclick="showProfileMenu()">
+                    <div class="profile-avatar">👤</div>
+                    <span class="profile-name">John Doe</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+            </div>
+        </header>
+
     <!-- Header -->
-    <header class="header">
+        <header class="page-header">
         <div class="container">
             <div class="header-content">
                 <h1 class="header-title">Project Management</h1>
@@ -21,8 +124,8 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main">
+        <!-- Main Content -->
+        <main class="main-content">
         <div class="container">
             <!-- Project Form (Hidden by default) -->
             <div id="projectForm" class="form-section" style="display: none;">
@@ -236,6 +339,74 @@
             </div>
         </div>
     </main>
+    </div>
+
+    <!-- Notification Dropdown -->
+    <div id="notificationDropdown" class="dropdown-menu notification-dropdown" style="display: none;">
+        <div class="dropdown-header">
+            <h3>Notifications</h3>
+            <button class="mark-all-read">Mark all as read</button>
+        </div>
+        <div class="notification-list">
+            <div class="notification-item unread">
+                <div class="notification-icon">📋</div>
+                <div class="notification-content">
+                    <div class="notification-title">Project Approved</div>
+                    <div class="notification-text">Healthcare Management System has been approved</div>
+                    <div class="notification-time">2 minutes ago</div>
+                </div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notification-icon">👥</div>
+                <div class="notification-content">
+                    <div class="notification-title">Team Update</div>
+                    <div class="notification-text">New member added to Smart Agriculture team</div>
+                    <div class="notification-time">1 hour ago</div>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon">💰</div>
+                <div class="notification-content">
+                    <div class="notification-title">Budget Alert</div>
+                    <div class="notification-text">Financial Analytics project budget updated</div>
+                    <div class="notification-time">3 hours ago</div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown-footer">
+            <a href="#" class="view-all-link">View all notifications</a>
+        </div>
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div id="profileDropdown" class="dropdown-menu profile-dropdown" style="display: none;">
+        <div class="profile-info">
+            <div class="profile-avatar large">👤</div>
+            <div class="profile-details">
+                <div class="profile-name">John Doe</div>
+                <div class="profile-email">john.doe@company.com</div>
+            </div>
+        </div>
+        <div class="profile-menu">
+            <a href="#" class="profile-menu-item">
+                <span class="menu-icon">👤</span>
+                <span>My Profile</span>
+            </a>
+            <a href="#" class="profile-menu-item">
+                <span class="menu-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="profile-menu-item">
+                <span class="menu-icon">❓</span>
+                <span>Help & Support</span>
+            </a>
+            <hr class="menu-divider">
+            <a href="#" class="profile-menu-item" onclick="logout()">
+                <span class="menu-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="modal" style="display: none;">
@@ -265,6 +436,72 @@
     <script>
         let currentAction = null;
         let currentProjectId = null;
+        let sidebarOpen = true;
+
+        // Sidebar functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainWrapper = document.querySelector('.main-wrapper');
+            
+            sidebarOpen = !sidebarOpen;
+            
+            if (sidebarOpen) {
+                sidebar.classList.remove('collapsed');
+                mainWrapper.classList.remove('sidebar-collapsed');
+            } else {
+                sidebar.classList.add('collapsed');
+                mainWrapper.classList.add('sidebar-collapsed');
+            }
+        }
+
+        // Header dropdown functionality
+        function showNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            profileDropdown.style.display = 'none';
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showProfileMenu() {
+            const dropdown = document.getElementById('profileDropdown');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            
+            notificationDropdown.style.display = 'none';
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                showNotification('Logging out...', 'info');
+                // Implement logout logic here
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const notificationBtn = document.querySelector('.notification-btn');
+            const profileBtn = document.querySelector('.profile-btn');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            if (!notificationBtn.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                notificationDropdown.style.display = 'none';
+            }
+            
+            if (!profileBtn.contains(event.target) && !profileDropdown.contains(event.target)) {
+                profileDropdown.style.display = 'none';
+            }
+        });
+
+        // Navigation active state
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
         function showAddProjectForm() {
             document.getElementById('projectForm').style.display = 'block';
