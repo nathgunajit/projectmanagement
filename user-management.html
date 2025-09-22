@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - ProjectHub</title>
+    <link rel="stylesheet" href="user-management-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo">
+                        <span class="logo-icon">📊</span>
+                        <span class="logo-text">ProjectHub</span>
+                    </div>
+                    <nav class="breadcrumb">
+                        <span class="breadcrumb-item">Dashboard</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active">User Management</span>
+                    </nav>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="showAddUserModal()" aria-label="Add new user">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        <span>Add User</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Title -->
+            <div class="page-header">
+                <h1 class="page-title">User Management</h1>
+                <p class="page-description">Manage users, roles, and project assignments</p>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="filters-section">
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input" 
+                            placeholder="Search users by name, email, or role..."
+                            aria-label="Search users"
+                            onkeyup="filterUsers()"
+                        >
+                        <button class="search-clear" onclick="clearSearch()" aria-label="Clear search">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="roleFilter" class="filter-label">Role</label>
+                        <select id="roleFilter" class="filter-select" onchange="filterUsers()" aria-label="Filter by role">
+                            <option value="">All Roles</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Project Manager">Project Manager</option>
+                            <option value="Developer">Developer</option>
+                            <option value="Designer">Designer</option>
+                            <option value="Analyst">Analyst</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="statusFilter" class="filter-label">Status</label>
+                        <select id="statusFilter" class="filter-select" onchange="filterUsers()" aria-label="Filter by status">
+                            <option value="">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="departmentFilter" class="filter-label">Department</label>
+                        <select id="departmentFilter" class="filter-select" onchange="filterUsers()" aria-label="Filter by department">
+                            <option value="">All Departments</option>
+                            <option value="IT">Information Technology</option>
+                            <option value="HR">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-secondary" onclick="resetFilters()" aria-label="Reset all filters">
+                        <i class="fas fa-undo" aria-hidden="true"></i>
+                        <span>Reset</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-info">
+                        <span id="userCount" class="user-count">Showing 12 of 45 users</span>
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline" onclick="exportUsers()" aria-label="Export user data">
+                            <i class="fas fa-download" aria-hidden="true"></i>
+                            <span>Export</span>
+                        </button>
+                        <div class="view-toggle">
+                            <button class="view-btn active" onclick="setTableView()" aria-label="Table view">
+                                <i class="fas fa-table" aria-hidden="true"></i>
+                            </button>
+                            <button class="view-btn" onclick="setCardView()" aria-label="Card view">
+                                <i class="fas fa-th-large" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="users-table" id="usersTable" role="table" aria-label="Users table">
+                        <thead>
+                            <tr role="row">
+                                <th scope="col" class="sortable" onclick="sortTable('name')" aria-sort="none">
+                                    <span>Name</span>
+                                    <i class="fas fa-sort sort-icon" aria-hidden="true"></i>
+                                </th>
+                                <th scope="col" class="sortable" onclick="sortTable('email')" aria-sort="none">
+                                    <span>Email</span>
+                                    <i class="fas fa-sort sort-icon" aria-hidden="true"></i>
+                                </th>
+                                <th scope="col" class="sortable" onclick="sortTable('role')" aria-sort="none">
+                                    <span>Role</span>
+                                    <i class="fas fa-sort sort-icon" aria-hidden="true"></i>
+                                </th>
+                                <th scope="col">Department</th>
+                                <th scope="col" class="sortable" onclick="sortTable('status')" aria-sort="none">
+                                    <span>Status</span>
+                                    <i class="fas fa-sort sort-icon" aria-hidden="true"></i>
+                                </th>
+                                <th scope="col" class="sortable" onclick="sortTable('lastActive')" aria-sort="none">
+                                    <span>Last Active</span>
+                                    <i class="fas fa-sort sort-icon" aria-hidden="true"></i>
+                                </th>
+                                <th scope="col" class="actions-column">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Users will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        <span id="paginationInfo">Showing 1-10 of 45 users</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" onclick="changePage('first')" aria-label="Go to first page">
+                            <i class="fas fa-angle-double-left" aria-hidden="true"></i>
+                        </button>
+                        <button class="pagination-btn" onclick="changePage('prev')" aria-label="Go to previous page">
+                            <i class="fas fa-angle-left" aria-hidden="true"></i>
+                        </button>
+                        <div class="pagination-numbers" id="paginationNumbers">
+                            <!-- Page numbers will be populated by JavaScript -->
+                        </div>
+                        <button class="pagination-btn" onclick="changePage('next')" aria-label="Go to next page">
+                            <i class="fas fa-angle-right" aria-hidden="true"></i>
+                        </button>
+                        <button class="pagination-btn" onclick="changePage('last')" aria-label="Go to last page">
+                            <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="pagination-size">
+                        <label for="pageSize" class="sr-only">Items per page</label>
+                        <select id="pageSize" class="page-size-select" onchange="changePageSize()" aria-label="Items per page">
+                            <option value="10">10 per page</option>
+                            <option value="25">25 per page</option>
+                            <option value="50">50 per page</option>
+                            <option value="100">100 per page</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal" role="dialog" aria-labelledby="addUserModalTitle" aria-hidden="true">
+        <div class="modal-overlay" onclick="closeModal('addUserModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="addUserModalTitle" class="modal-title">Add New User</h2>
+                <button class="modal-close" onclick="closeModal('addUserModal')" aria-label="Close modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            
+            <form id="addUserForm" class="modal-body" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">
+                            First Name <span class="required" aria-label="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            class="form-input" 
+                            required 
+                            aria-describedby="firstNameError"
+                            autocomplete="given-name"
+                        >
+                        <span id="firstNameError" class="error-message" role="alert"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">
+                            Last Name <span class="required" aria-label="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            name="lastName" 
+                            class="form-input" 
+                            required 
+                            aria-describedby="lastNameError"
+                            autocomplete="family-name"
+                        >
+                        <span id="lastNameError" class="error-message" role="alert"></span>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="email" class="form-label">
+                            Email Address <span class="required" aria-label="required">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            required 
+                            aria-describedby="emailError emailHelp"
+                            autocomplete="email"
+                        >
+                        <span id="emailHelp" class="form-help">User will receive login credentials via email</span>
+                        <span id="emailError" class="error-message" role="alert"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            class="form-input" 
+                            aria-describedby="phoneError"
+                            autocomplete="tel"
+                        >
+                        <span id="phoneError" class="error-message" role="alert"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="role" class="form-label">
+                            Role <span class="required" aria-label="required">*</span>
+                        </label>
+                        <select 
+                            id="role" 
+                            name="role" 
+                            class="form-select" 
+                            required 
+                            aria-describedby="roleError"
+                        >
+                            <option value="">Select a role</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Project Manager">Project Manager</option>
+                            <option value="Developer">Developer</option>
+                            <option value="Designer">Designer</option>
+                            <option value="Analyst">Analyst</option>
+                        </select>
+                        <span id="roleError" class="error-message" role="alert"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department" class="form-label">
+                            Department <span class="required" aria-label="required">*</span>
+                        </label>
+                        <select 
+                            id="department" 
+                            name="department" 
+                            class="form-select" 
+                            required 
+                            aria-describedby="departmentError"
+                        >
+                            <option value="">Select a department</option>
+                            <option value="IT">Information Technology</option>
+                            <option value="HR">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                        <span id="departmentError" class="error-message" role="alert"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="status" class="form-label">
+                            Status <span class="required" aria-label="required">*</span>
+                        </label>
+                        <select 
+                            id="status" 
+                            name="status" 
+                            class="form-select" 
+                            required 
+                            aria-describedby="statusError"
+                        >
+                            <option value="">Select status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                        <span id="statusError" class="error-message" role="alert"></span>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="bio" class="form-label">Bio/Notes</label>
+                        <textarea 
+                            id="bio" 
+                            name="bio" 
+                            class="form-textarea" 
+                            rows="3" 
+                            placeholder="Optional notes about the user..."
+                            aria-describedby="bioHelp"
+                        ></textarea>
+                        <span id="bioHelp" class="form-help">Maximum 500 characters</span>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('addUserModal')">
+                    Cancel
+                </button>
+                <button type="submit" form="addUserForm" class="btn btn-primary" onclick="submitUserForm()">
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                    <span>Add User</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign Project Modal -->
+    <div id="assignProjectModal" class="modal" role="dialog" aria-labelledby="assignProjectModalTitle" aria-hidden="true">
+        <div class="modal-overlay" onclick="closeModal('assignProjectModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="assignProjectModalTitle" class="modal-title">Assign Project</h2>
+                <button class="modal-close" onclick="closeModal('assignProjectModal')" aria-label="Close modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            
+            <form id="assignProjectForm" class="modal-body">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </div>
+                    <div class="user-details">
+                        <h3 id="assignUserName" class="user-name">John Doe</h3>
+                        <p id="assignUserRole" class="user-role">Project Manager</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectSelect" class="form-label">
+                        Select Project <span class="required" aria-label="required">*</span>
+                    </label>
+                    <select id="projectSelect" name="project" class="form-select" required>
+                        <option value="">Choose a project</option>
+                        <option value="1">Healthcare Management System</option>
+                        <option value="2">Smart Agriculture Initiative</option>
+                        <option value="3">Employee Training Platform</option>
+                        <option value="4">Financial Analytics Dashboard</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectRole" class="form-label">
+                        Role in Project <span class="required" aria-label="required">*</span>
+                    </label>
+                    <select id="projectRole" name="projectRole" class="form-select" required>
+                        <option value="">Select role</option>
+                        <option value="Lead">Project Lead</option>
+                        <option value="Member">Team Member</option>
+                        <option value="Contributor">Contributor</option>
+                        <option value="Observer">Observer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignmentNotes" class="form-label">Assignment Notes</label>
+                    <textarea 
+                        id="assignmentNotes" 
+                        name="notes" 
+                        class="form-textarea" 
+                        rows="3" 
+                        placeholder="Optional notes about this assignment..."
+                    ></textarea>
+                </div>
+            </form>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('assignProjectModal')">
+                    Cancel
+                </button>
+                <button type="submit" form="assignProjectForm" class="btn btn-primary" onclick="assignProject()">
+                    <i class="fas fa-check" aria-hidden="true"></i>
+                    <span>Assign Project</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal" role="dialog" aria-labelledby="confirmModalTitle" aria-hidden="true">
+        <div class="modal-overlay" onclick="closeModal('confirmModal')"></div>
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2 id="confirmModalTitle" class="modal-title">Confirm Action</h2>
+                <button class="modal-close" onclick="closeModal('confirmModal')" aria-label="Close modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="confirm-content">
+                    <div class="confirm-icon">
+                        <i id="confirmIcon" class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                    </div>
+                    <p id="confirmMessage" class="confirm-message">Are you sure you want to perform this action?</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('confirmModal')">
+                    Cancel
+                </button>
+                <button type="button" id="confirmButton" class="btn btn-danger" onclick="confirmAction()">
+                    <span id="confirmButtonText">Confirm</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" role="alert" aria-live="polite">
+        <div class="toast-content">
+            <i id="toastIcon" class="toast-icon" aria-hidden="true"></i>
+            <span id="toastMessage" class="toast-message"></span>
+            <button class="toast-close" onclick="closeToast()" aria-label="Close notification">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="user-management-script.js"></script>
+</body>
+</html>
